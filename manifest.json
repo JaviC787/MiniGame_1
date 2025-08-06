@@ -1,0 +1,15 @@
+{
+  "name": "Click the Zombie",
+  "short_name": "ZombieClick",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#222222",
+  "theme_color": "#00bfff",
+  "icons": [
+    {
+      "src": "zombie.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
