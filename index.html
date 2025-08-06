@@ -162,6 +162,7 @@
     let gameInterval;
     let autoMoveInterval;
     let gameActive = false;
+    let zombieWasTapped = false;
 
     function moveZombie() {
       const x = Math.random() * (window.innerWidth - 80);
@@ -225,7 +226,6 @@
 
     function handleZombieClick(event) {
       if (!gameActive) return;
-
       score++;
       scoreDisplay.textContent = `Score: ${score}`;
       zombie.classList.add("hit-effect");
@@ -239,13 +239,19 @@
     }
 
     zombieWrapper.addEventListener("click", handleZombieClick);
+
     zombieWrapper.addEventListener("touchstart", (e) => {
       e.preventDefault();
+      if (!gameActive) return;
+      zombieWasTapped = true;
       handleZombieClick(e);
+      setTimeout(() => {
+        zombieWasTapped = false;
+      }, 100);
     }, { passive: false });
 
     document.body.addEventListener("click", (e) => {
-      if (!gameActive) return;
+      if (!gameActive || zombieWasTapped) return;
       if (!zombieWrapper.contains(e.target)) {
         score = Math.max(0, score - 1);
         scoreDisplay.textContent = `Score: ${score}`;
@@ -254,7 +260,7 @@
     });
 
     document.body.addEventListener("touchstart", (e) => {
-      if (!gameActive) return;
+      if (!gameActive || zombieWasTapped) return;
       const touch = e.touches[0];
       if (!zombieWrapper.contains(document.elementFromPoint(touch.clientX, touch.clientY))) {
         score = Math.max(0, score - 1);
